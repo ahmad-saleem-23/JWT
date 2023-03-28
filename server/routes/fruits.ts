@@ -1,6 +1,7 @@
 import express from 'express'
 import { Fruit, FruitSnakeCase } from '../../models/fruit'
 import { JwtRequest } from '../auth0'
+import checkJwt from '../auth0'
 
 import {
   getFruits,
@@ -14,7 +15,7 @@ const router = express.Router()
 
 // A public endpoint that anyone can access
 // GET /api/v1/fruits
-router.get('/', (req, res) => {
+router.get('/',  (req, res) => {
   getFruits()
     .then((fruits: Fruit[]) => res.json({ fruits }))
     .catch((err: Error) => {
@@ -25,7 +26,7 @@ router.get('/', (req, res) => {
 
 // TODO: use checkJwt as middleware
 // POST /api/v1/fruits
-router.post('/', (req: JwtRequest, res) => {
+router.post('/', checkJwt,(req: JwtRequest, res) => {
   const { fruit } = req.body
   const auth0Id = req.auth?.sub
 
@@ -51,7 +52,7 @@ router.post('/', (req: JwtRequest, res) => {
 
 // TODO: use checkJwt as middleware
 // PUT /api/v1/fruits
-router.put('/', (req: JwtRequest, res) => {
+router.put('/', checkJwt,(req: JwtRequest, res) => {
   const { fruit } = req.body
   const auth0Id = req.auth?.sub
   const fruitToUpdate = {
@@ -84,7 +85,7 @@ router.put('/', (req: JwtRequest, res) => {
 
 // TODO: use checkJwt as middleware
 // DELETE /api/v1/fruits
-router.delete('/:id', (req: JwtRequest, res) => {
+router.delete('/:id',checkJwt, (req: JwtRequest, res) => {
   const id = Number(req.params.id)
   const auth0Id = req.auth?.sub
 

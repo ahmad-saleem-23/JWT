@@ -27,7 +27,7 @@ function Fruits() {
   const [error, setError] = useState('')
   const [fruits, setFruits] = useState<Fruit[]>([])
   const [form, setForm] = useState<State>(closedForm)
-  const {getAccessTokenSilently}= useAuth0()
+  const {getAccessTokenSilently }= useAuth0()
 
   // TODO: call the useAuth0 hook and destructure getAccessTokenSilently
 
