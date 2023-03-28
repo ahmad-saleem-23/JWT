@@ -6,6 +6,7 @@ import { addFruit, deleteFruit, getFruits, updateFruit } from '../api'
 import SelectedFruitForm from './SelectedFruit'
 import AddFruitForm from './AddFruit'
 import { ErrorMessage } from './Styled'
+import { useAuth0 } from '@auth0/auth0-react'
 
 type State =
   | {
@@ -26,6 +27,7 @@ function Fruits() {
   const [error, setError] = useState('')
   const [fruits, setFruits] = useState<Fruit[]>([])
   const [form, setForm] = useState<State>(closedForm)
+  const {getAccessTokenSilently}= useAuth0()
 
   // TODO: call the useAuth0 hook and destructure getAccessTokenSilently
 
@@ -37,8 +39,10 @@ function Fruits() {
 
   const handleAdd = async (fruit: NewFruit) => {
     try {
+      const token =  await getAccessTokenSilently()
       // TODO: pass token as second parameter
-      const fruits = await addFruit(fruit, 'token')
+      const fruits = await addFruit(fruit, token)
+      
 
       setFruits(fruits)
       handleCloseForm()
@@ -52,8 +56,9 @@ function Fruits() {
 
   const handleUpdate = async (updatedFruit: Fruit) => {
     try {
+      const token =  await getAccessTokenSilently()
       // TODO: pass token as second parameter
-      const fruits = await updateFruit(updatedFruit, 'token')
+      const fruits = await updateFruit(updatedFruit, token)
 
       setFruits(fruits)
       handleCloseForm()
@@ -67,8 +72,9 @@ function Fruits() {
 
   const handleDelete = async (id: number) => {
     try {
+      const token =  await getAccessTokenSilently()
       // TODO: pass token as second parameter
-      const fruits = await deleteFruit(id, 'token')
+      const fruits = await deleteFruit(id, token)
 
       setFruits(fruits)
       handleCloseForm()

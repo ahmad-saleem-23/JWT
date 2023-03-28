@@ -9,7 +9,7 @@ function Nav() {
   // const user = {
   //   nickname: 'john.doe',
   // }
-
+console.log(user)
   const handleSignOut = () => {
     logout()
   }
